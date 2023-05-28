@@ -35,7 +35,7 @@ public class AddRenda extends HttpServlet {
         String homePath = contextPath + "/home";
         req.setAttribute("link",homePath);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/rendaMensal-adicionada.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/rendaMensal-adicionado.jsp");
         dispatcher.forward(req,resp);
     }
 }
