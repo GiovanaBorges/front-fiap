@@ -17,20 +17,19 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.List;
 
-
-public class Home extends HttpServlet {
+@WebServlet("/home")
+public class ListGastosAndRendaServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = ConnectionFactory.getConnection();
         GastosDAO dao = new GastosDAO(connection);
         List<Gastos> gastos = dao.findAll();
-        double resultGastos = 0;
 
         RendaMensalDAO rendadao = new RendaMensalDAO(connection);
         List<RendaMensal> rendas = rendadao.findAll();
-        double resultRenda = 0;
 
-        String contextPath = req.getContextPath();
+        double resultGastos = 0;
+        double resultRenda = 0;
 
 
         for(Gastos gasto : gastos) {
@@ -41,27 +40,17 @@ public class Home extends HttpServlet {
             resultRenda += rendatotal.getRendaMensal();
         }
 
+        req.setAttribute("gastos",gastos);
+        req.setAttribute("rendas",rendas);
         DecimalFormat df = new DecimalFormat("#.##");
-        req.setAttribute("gastos",Double.parseDouble(df.format(resultGastos)));
-        req.setAttribute("renda",Double.parseDouble(df.format(resultRenda)));
+        req.setAttribute("gastosTotal",Double.parseDouble(df.format(resultGastos)));
+        req.setAttribute("rendasTotal",Double.parseDouble(df.format(resultRenda)));
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
         dispatcher.forward(req,resp);
-        resp.sendRedirect("home.jsp");
+
+
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
-    }
 }

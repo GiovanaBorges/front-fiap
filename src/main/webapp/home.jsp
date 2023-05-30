@@ -1,5 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="br.com.fiapchallenge.infra.ConnectionFactory,java.sql.Connection,br.com.fiapchallenge.dao.GastosDAO.GastosDAO,br.com.fiapchallenge.dao.RendaMensalDAO.RendaMensalDAO,java.util.*,br.com.fiapchallenge.model.Gastos,br.com.fiapchallenge.model.RendaMensal" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -356,7 +356,7 @@ header{
 
                 <img width="50" height="50" src="https://img.icons8.com/ios/50/1FC554/circled-up-2.png" alt="Imagem de entradas"/>
             </h3>
-            <p id='incomeDisplay'>R$ ${renda}</p>
+            <p id='incomeDisplay'>R$ ${rendasTotal}</p>
     </div>
     <div class="card">
         <h3>
@@ -364,7 +364,7 @@ header{
 
             <img width="50" height="50" src="https://img.icons8.com/ios/50/FF0808/circled-down-2.png" alt="Imagem de Saídas"/>
         </h3>
-        <p id="expenseDisplay">R$ - ${gastos}</p>
+        <p id="expenseDisplay">R$ - ${gastosTotal}</p>
     </div>
 
     </section>
@@ -391,30 +391,31 @@ header{
                 <th>Descricao</th>
                 <th>Data</th>
                 <th>Valor</th>
+                <th>Editar</th>
+                <th>Deletar</th>
               </tr>
-               <%
-                      Connection connection = ConnectionFactory.getConnection();
-                            GastosDAO dao = new GastosDAO(connection);
-                            List<Gastos> gastos = dao.findAll();
 
-                            for(Gastos gasto : gastos){
-                  %>
+             <c:forEach var="gasto" items="${gastos}">
               <tr>
-
                 <td data-th="Supplier Code">
-                 <%= gasto.getGastos() %>
+                 ${gasto.getGastos()}
                 </td>
                 <td data-th="Supplier Name">
-                 <%= gasto.getData() %>
+                  ${gasto.getData()}
                 </td>
                 <td data-th="Invoice Number">
-               <%= gasto.getValor() %>
+                   ${gasto.getValor()}
                 </td>
-  <%
-    }
-    %>
+                 <td>
+                            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/edit--v1.png" alt="edit--v1"/>
+                                </td>
+                                <td>
+                                    <a href="removeGasto?id=${gasto.getId()}"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FF0808/filled-trash.png" alt="filled-trash"/></a>
+                                </td>
+
 
               </tr>
+              </c:forEach>
             </tbody>
           </table>
 
@@ -438,30 +439,31 @@ header{
                 <th>Descricao</th>
                 <th>Data</th>
                 <th>Valor</th>
+                 <th>Editar</th>
+                 <th>Deletar</th>
               </tr>
-               <%
-                    RendaMensalDAO rendadao = new RendaMensalDAO(connection);
-                             List<RendaMensal> rendas = rendadao.findAll();
 
-                               for(RendaMensal renda : rendas){
-
-                  %>
+           <c:forEach var="renda" items="${rendas}">
               <tr>
 
                 <td data-th="Supplier Code">
-                 <%= renda.getRenda() %>
+                 ${renda.getRenda()}
                 </td>
                 <td data-th="Supplier Name">
-                 <%= renda.getData() %>
+                 ${renda.getData()}
                 </td>
                 <td data-th="Invoice Number">
-               <%= renda.getRendaMensal()%>
+               ${renda.getRendaMensal()}
                 </td>
-  <%
-    }
-    %>
-
+                <td>
+                         <a href="editRenda?id=${renda.getId()}"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/edit--v1.png" alt="edit--v1"/></a>
+                </td>
+                <td>
+                    <a href="removeRenda?id=${renda.getId()}"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FF0808/filled-trash.png" alt="filled-trash"/></a>
+                </td>
               </tr>
+
+              </c:forEach>
             </tbody>
           </table>
 

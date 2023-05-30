@@ -1,4 +1,8 @@
-fintech\AddGastos.class
+fintech\EditRenda.class
 fintech\AddRenda.class
-fintech\Home.class
+fintech\ListGastosAndRendaServlet.class
 GastosBean.class
+fintech\AddGastos.class
+fintech\RemoveRenda.class
+fintech\Home.class
+fintech\RemoveGastoServlet.class
